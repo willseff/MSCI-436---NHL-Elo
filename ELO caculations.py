@@ -35,6 +35,10 @@ def update_end_of_season(elos):
     return elos
 
 df_reg = pd.read_csv("game.csv")
+for row in df_reg.itertuples():
+    idx = row.Index
+
+    s = df_reg.at[idx,'date_time']
 
 df_reg.drop(labels=[ 'home_rink_side_start', 'venue', 'venue_link', 'venue_time_zone_id','venue_time_zone_offset','venue_time_zone_tz'], inplace=True, axis=1)
 df_reg.sort_values(by=['date_time'], inplace=True)
