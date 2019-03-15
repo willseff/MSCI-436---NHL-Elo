@@ -1,9 +1,12 @@
 # pip install hockey scraper
 import pandas as pd
+import datetime as dt
+
+now = dt.datetime.now()
 
 df_lists = []
 
-for year in range (2000,2010):
+for year in range (2000,now.year+1):
 
 	if year == 2005:
 		print("2005 was the lockout")
