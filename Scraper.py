@@ -2,25 +2,30 @@
 import pandas as pd
 import datetime as dt
 
-now = dt.datetime.now()
+class scraper: 
 
-df_lists = []
+	def __init__ (self,a,b):
 
-for year in range (2000,now.year+1):
+		df_lists = []
 
-	if year == 2005:
-		print("2005 was the lockout")
+		for year in range (a,b):
 
-	else:
-		url = r'https://www.hockey-reference.com/leagues/NHL_' + str(year) + r'_games.html' 
+			if year == 2005:
+				print("2005 was the lockout")
 
-		df_lists.append(pd.read_html(url)[0])
+			else:
+				url = r'https://www.hockey-reference.com/leagues/NHL_' + str(year) + r'_games.html' 
 
-		print (str(year) + " scraped")
+				df_lists.append(pd.read_html(url)[0])
+
+				print (str(year) + " scraped")
+
+		self.df = pd.concat(df_lists)
 
 
-df = pd.concat(df_lists)
 
-df.to_csv('game outcomes.csv')
+	def toCsv(self):
+
+		self.df.to_csv('game outcomes.csv')
 
 
