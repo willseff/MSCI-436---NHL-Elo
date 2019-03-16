@@ -39,6 +39,7 @@ df_reg = pd.read_csv("game.csv")
 df_reg.drop(labels=[ 'home_rink_side_start', 'venue', 'venue_link', 'venue_time_zone_id','venue_time_zone_offset','venue_time_zone_tz'], inplace=True, axis=1)
 df_reg.sort_values(by=['date_time'], inplace=True)
 df_reg.head()
+
 mean_elo = 1500
 elo_width = 400
 k_factor = 64
