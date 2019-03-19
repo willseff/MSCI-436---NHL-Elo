@@ -1,15 +1,17 @@
-# pip install hockey scraper
 import pandas as pd
 import datetime as dt
 
+#this class scrapes game data from hockeyreference.com and reformats it into a more usable format.
 class scraper: 
 
 	def __init__ (self,a,b):
 
 		df_lists = []
 
+		#scrapes data from hockeyreference.com
 		for year in range (a,b):
 
+			# 2005 was the lockout so there is no data to be scraped
 			if year == 2005:
 				print("2005 was the lockout")
 
@@ -26,12 +28,14 @@ class scraper:
 
 		#df.drop(labels=[ 'Att.', 'LOG', 'Notes'], inplace=True, axis=1)
 
+		# creates two new columns to turn the team names into numerical encodings
 		df['homeTeamEncode'] = 0
 		df['visitorTeamEncode'] = 0
 
+		#turn date column from string to datetime object
 		df['Date'] = pd.to_datetime(df['Date'])
 
-
+		#iterates through each row in the dataframe and crossreferences it to the appopriate encoding from a csv dictionary of values
 		for gameRow in df.itertuples():
 			for teamRow in teamEncodings.itertuples():
 				if gameRow.Visitor == teamRow.Team:
@@ -56,11 +60,12 @@ class scraper:
 		self.df = df [['Date','homeTeamEncode', 'G','visitorTeamEncode', 'G.1', 'Unnamed: 5']]
 
 
-
+	# method exports the dataframe to csv format
 	def toCsv(self):
 
 		self.df.to_csv('game outcomes.csv')
 
+	#method returns the dataframe
 	def returnDf(self):
 
 		return self.df
