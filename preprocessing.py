@@ -9,6 +9,8 @@ teamEncodings = pd.read_csv('Team Encodings.csv')
 df['homeTeamEncode'] = 0
 df['visitorTeamEncode'] = 0
 
+df['Date'] = pd.to_datetime(df['Date'])
+
 
 for gameRow in df.itertuples():
 	for teamRow in teamEncodings.itertuples():
