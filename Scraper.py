@@ -28,4 +28,10 @@ class scraper:
 
 		self.df.to_csv('game outcomes.csv')
 
+	def returnDf(self):
+
+		return self.df
+
+
+
 
