@@ -28,7 +28,7 @@ for gameRow in df.itertuples():
 			df.at[idx, 'homeTeamEncode'] = teamRow.Encoding
 
 
-df = df ['Date', 'homeTeamEncode','G','visitorTeamEncode', 'G.1', 'Unnamed: 5']
+df = df [['Date','homeTeamEncode', 'G','visitorTeamEncode', 'G.1', 'Unnamed: 5']]
 
 
 
