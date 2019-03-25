@@ -18,8 +18,15 @@ class scraper:
 			else:
 				url = r'https://www.hockey-reference.com/leagues/NHL_' + str(year) + r'_games.html' 
 
-				df_lists.append(pd.read_html(url)[0])
-				df_lists.append(pd.read_html(url)[1])
+				df_temp_reg = pd.DataFrame(pd.read_html(url)[0])
+				df_temp_reg['season'] = year
+
+				df_temp_post = pd.DataFrame(pd.read_html(url)[1])
+				df_temp_post['season'] = year
+
+
+				df_lists.append(df_temp_reg)
+				df_lists.append(df_temp_post)
 
 				print (str(year) + " scraped")
 
@@ -58,7 +65,7 @@ class scraper:
 		print('Home Teams Encoded')			
 
 
-		self.df = df [['Date','homeTeamEncode', 'G','visitorTeamEncode', 'G.1', 'Unnamed: 5']]
+		self.df = df [['Date','homeTeamEncode', 'G','visitorTeamEncode', 'G.1', 'Unnamed: 5','season']]
 
 
 	# method exports the dataframe to csv format
