@@ -9,7 +9,8 @@ class scraper:
 		df_lists = []
 
 		#scrapes data from hockeyreference.com
-		for year in range (a,b):
+		for year in range (a,b+1):
+			k=1
 
 			# 2005 was the lockout so there is no data to be scraped
 			if year == 2005:
@@ -21,12 +22,19 @@ class scraper:
 				df_temp_reg = pd.DataFrame(pd.read_html(url)[0])
 				df_temp_reg['season'] = year
 
-				df_temp_post = pd.DataFrame(pd.read_html(url)[1])
-				df_temp_post['season'] = year
+				try:
+					df_temp_post = pd.DataFrame(pd.read_html(url)[1])
+					df_temp_post['season'] = year
+
+				except IndexError as e:
+					k = 0
+				 	print('no playoffs available yet')
 
 
 				df_lists.append(df_temp_reg)
-				df_lists.append(df_temp_post)
+
+				if k == 1:
+					df_lists.append(df_temp_post)
 
 				print (str(year) + " scraped")
 
