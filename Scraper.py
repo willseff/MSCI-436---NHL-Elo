@@ -19,6 +19,7 @@ class scraper:
 				url = r'https://www.hockey-reference.com/leagues/NHL_' + str(year) + r'_games.html' 
 
 				df_lists.append(pd.read_html(url)[0])
+				df_lists.append(pd.read_html(url)[1])
 
 				print (str(year) + " scraped")
 
@@ -64,6 +65,8 @@ class scraper:
 	def toCsv(self):
 
 		self.df.to_csv('game outcomes.csv')
+
+		print("game outcomes saved to CSV")
 
 	#method returns the dataframe
 	def returnDf(self):
