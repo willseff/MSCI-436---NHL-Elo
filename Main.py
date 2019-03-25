@@ -1,9 +1,9 @@
 from Scraper import scraper
 
-y = scraper(2000, 1004)
 
-k =y.returnDf()
+y = scraper(2000, 2004)
 
-print(k)
+df =y.returnDf()
+
 
 y.toCsv()
