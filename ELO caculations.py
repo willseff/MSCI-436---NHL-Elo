@@ -60,28 +60,35 @@ for row in df_reg.itertuples():
         current_season = row.season
         
     idx = row.Index
-    if row.homeTeamGoals < row.visitorTeamGoals :
-        w_id = row.visitorTeamEncode
-        l_id = row.homeTeamEncode
+    try :
+        if row.homeTeamGoals < row.visitorTeamGoals :
+            w_id = row.visitorTeamEncode
+            l_id = row.homeTeamEncode
+            
+        else:
+            w_id = row.homeTeamEncode
+            l_id = row.visitorTeamEncode
+            
+        # Get current elos
+        w_elo_before = team_elos.iloc[w_id-1]
+        l_elo_before = team_elos.iloc[l_id-1]
+        # Update on game results
+        w_elo_after, l_elo_after = update_elo(w_elo_before, l_elo_before)
         
-    else:
-        w_id = row.homeTeamEncode
-        l_id = row.visitorTeamEncode
-        
-    # Get current elos
-    w_elo_before = team_elos.iloc[w_id-1]
-    l_elo_before = team_elos.iloc[l_id-1]
-    # Update on game results
-    w_elo_after, l_elo_after = update_elo(w_elo_before, l_elo_before)
-    
-      # Save updated elos
-    df_reg.at[idx, 'w_elo_after_game'] = w_elo_after
-    df_reg.at[idx, 'l_elo_after_game'] = l_elo_after
-    team_elos.iloc[w_id-1] = w_elo_after
-    team_elos.iloc[l_id-1] = l_elo_after
+          # Save updated elos
+        df_reg.at[idx, 'w_elo_after_game'] = w_elo_after
+        df_reg.at[idx, 'l_elo_after_game'] = l_elo_after
+        team_elos.iloc[w_id-1] = w_elo_after
+        team_elos.iloc[l_id-1] = l_elo_after
+
+    except AttributeError as e:
+        # this does nothing just when it was left blank python said there was an indentation error
+        l=8
 
 
 df_reg.to_csv('out.csv')
+team_elos.columns = ['elo']
+team_elos['team'] = pd.read_csv('Team Encodings.csv')['Team']
 team_elos.to_csv('team elos.csv')
 
 
