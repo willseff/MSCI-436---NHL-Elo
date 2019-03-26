@@ -83,7 +83,7 @@ for row in df_reg.itertuples():
 
     except AttributeError as e:
         # this does nothing just when it was left blank python said there was an indentation error
-        l=8
+        print('exception')
 
 
 df_reg.to_csv('out.csv')
