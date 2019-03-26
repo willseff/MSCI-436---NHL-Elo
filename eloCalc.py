@@ -106,4 +106,11 @@ class eloCalc:
 
         print ('Elo results saved to csv')
 
+    def upcomingGames(self):
+
+
+        self.df_games['Date'] = pd.to_datetime(self.df_games['Date'])
+        df_today = self.df_games.loc[self.df_games['Date'] == datetime.today().date()]
+
+
 
