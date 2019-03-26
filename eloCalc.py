@@ -5,6 +5,10 @@ import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 from datetime import datetime
 
+mean_elo = 1500
+elo_width = 400
+k_factor = 64
+
 
 sns.set_style("darkgrid")
 sns.set_context("notebook")
@@ -40,55 +44,66 @@ df_reg = pd.read_csv("game outcomes.csv")
 
 #     s = df_reg.at[idx,'date_time']
 
+class eloCalc:
 
-mean_elo = 1500
-elo_width = 400
-k_factor = 64
+    def __init__ (self):
 
-df_reg['w_elo_after_game'] = 0
+        df_reg = pd.read_csv("game outcomes.csv")
 
-df_reg['l_elo_after_game'] = 0
-data = [1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500]
-team_elos = pd.DataFrame(data)
+        df_reg['w_elo_after_game'] = 0
+        df_reg['l_elo_after_game']  = 0
 
-current_season = df_reg.at[0, 'season']
-for row in df_reg.itertuples():
-    if row.season != current_season:
-        # Check if we are starting a new season. 
-        # Regress all ratings towards the mean
-        team_elos = update_end_of_season(team_elos)
-        current_season = row.season
-        
-    idx = row.Index
-    try :
-        if row.homeTeamGoals < row.visitorTeamGoals :
-            w_id = row.visitorTeamEncode
-            l_id = row.homeTeamEncode
-            
-        else:
-            w_id = row.homeTeamEncode
-            l_id = row.visitorTeamEncode
-            
-        # Get current elos
-        w_elo_before = team_elos.iloc[w_id-1]
-        l_elo_before = team_elos.iloc[l_id-1]
-        # Update on game results
-        w_elo_after, l_elo_after = update_elo(w_elo_before, l_elo_before)
-        
-          # Save updated elos
-        df_reg.at[idx, 'w_elo_after_game'] = w_elo_after
-        df_reg.at[idx, 'l_elo_after_game'] = l_elo_after
-        team_elos.iloc[w_id-1] = w_elo_after
-        team_elos.iloc[l_id-1] = l_elo_after
+        data = [1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500,1500]
+        team_elos = pd.DataFrame(data)
 
-    except AttributeError as e:
-        # this does nothing just when it was left blank python said there was an indentation error
-        print('exception')
+        current_season = df_reg.at[0, 'season']
+        for row in df_reg.itertuples():
+            if row.season != current_season:
+                # Check if we are starting a new season. 
+                # Regress all ratings towards the mean
+                team_elos = update_end_of_season(team_elos)
+                current_season = row.season
+                
+            idx = row.Index
+            try :
+                if row.homeTeamGoals < row.visitorTeamGoals :
+                    w_id = row.visitorTeamEncode
+                    l_id = row.homeTeamEncode
+                    
+                else:
+                    w_id = row.homeTeamEncode
+                    l_id = row.visitorTeamEncode
+                    
+                # Get current elos
+                w_elo_before = team_elos.iloc[w_id-1]
+                l_elo_before = team_elos.iloc[l_id-1]
+                # Update on game results
+                w_elo_after, l_elo_after = update_elo(w_elo_before, l_elo_before)
+                
+                  # Save updated elos
+                df_reg.at[idx, 'w_elo_after_game'] = w_elo_after
+                df_reg.at[idx, 'l_elo_after_game'] = l_elo_after
+                team_elos.iloc[w_id-1] = w_elo_after
+                team_elos.iloc[l_id-1] = l_elo_after
+
+            except AttributeError as e:
+                # this does nothing just when it was left blank python said there was an indentation error
+                print('exception')
 
 
-df_reg.to_csv('out.csv')
-team_elos.columns = ['elo']
-team_elos['team'] = pd.read_csv('Team Encodings.csv')['Team']
-team_elos.to_csv('team elos.csv')
+
+        self.df_games = df_reg
+
+        team_elos.columns = ['elo']
+        team_elos['team'] = pd.read_csv('Team Encodings.csv')['Team']
+        self.df_team_elos = team_elos
+
+
+    def toCsv(self):
+
+        self.df_games.to_csv('out.csv')
+        self.df_team_elos.to_csv('team elos.csv')
+
+        print ('Elo results saved to csv')
 
 
