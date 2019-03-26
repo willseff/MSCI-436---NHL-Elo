@@ -73,7 +73,10 @@ class scraper:
 		print('Home Teams Encoded')			
 
 
-		self.df = df [['Date','homeTeamEncode', 'G','visitorTeamEncode', 'G.1', 'Unnamed: 5','season']]
+		df_temp = df [['Date','homeTeamEncode', 'G','visitorTeamEncode', 'G.1', 'Unnamed: 5','season']]
+		df_temp = df_temp.rename(columns = {'G': 'homeTeamGoals', 'G.1': 'visitorTeamGoals'})
+
+		self.df = df_temp
 
 
 	# method exports the dataframe to csv format
