@@ -10,6 +10,7 @@ tframe = Frame(root)
 tframe.pack()
 table = TableCanvas(tframe, rowheaderwidth=0)
 table.importCSV('team elos.csv')
+table.sortTable(columnName='elo')
 table.show()
 
 two = Label(root,text = 'Upcoming Games', bg ='blue', fg = 'white')
