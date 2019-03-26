@@ -9,3 +9,6 @@ out.csv
 team elos.csv
 teamElos.csv
 Scraper.pyc
+*.pyc
+out.csv
+game outcomes.csv
