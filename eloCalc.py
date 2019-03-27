@@ -65,7 +65,7 @@ class eloCalc:
                 current_season = row.season
                 
             idx = row.Index
-            try :
+            if row.homeTeamGoals > -1 :
                 if row.homeTeamGoals < row.visitorTeamGoals :
                     w_id = row.visitorTeamEncode
                     l_id = row.homeTeamEncode
@@ -86,9 +86,9 @@ class eloCalc:
                 team_elos.iloc[w_id-1] = w_elo_after
                 team_elos.iloc[l_id-1] = l_elo_after
 
-            except AttributeError as e:
+            else:
                 # this does nothing just when it was left blank python said there was an indentation error
-                print('exception')
+                l=1
 
 
 
@@ -97,6 +97,8 @@ class eloCalc:
         team_elos.columns = ['elo']
         team_elos['team'] = pd.read_csv('Team Encodings.csv')['Team']
         self.df_team_elos = team_elos
+
+        print(self.df_games)
 
 
     def toCsv(self):
@@ -111,6 +113,16 @@ class eloCalc:
 
         self.df_games['Date'] = pd.to_datetime(self.df_games['Date'])
         df_today = self.df_games.loc[self.df_games['Date'] == datetime.today().date()]
+        count = 0
+        #lookup elo values of the teams playing today and calculate win percentages
+        for row in df_today.itertuples():
+            idx=row.Index
+            count = count +1
+            homeTeamElo = self.df_team_elos.iloc[row.homeTeamEncode-1][0]
+            visitorTeamElo = self.df_team_elos.iloc[row.visitorTeamEncode-1][0]
+            df_today.at[idx, 'homeTeamGoals'] = expected_result(homeTeamElo, visitorTeamElo)
+
+        df_today.to_csv('test.csv')
 
 
 
