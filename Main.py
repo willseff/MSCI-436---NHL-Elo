@@ -11,4 +11,8 @@ ec.toCsv()
 
 ec.upcomingGames()
 
+ec.test()
+
+
+
 
