@@ -16,7 +16,11 @@ table.show()
 two = Label(root,text = 'Upcoming Games', bg ='blue', fg = 'white')
 two.pack()
 
-#make a df with upcoming games and chance of win here
+tframe2 = Frame(root)
+tframe2.pack()
+table2 = TableCanvas(tframe2, rowheaderwidth=0)
+table2.importCSV('test.csv')
+table2.show()
 
 root.mainloop()
 
