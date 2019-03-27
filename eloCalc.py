@@ -114,15 +114,32 @@ class eloCalc:
         self.df_games['Date'] = pd.to_datetime(self.df_games['Date'])
         df_today = self.df_games.loc[self.df_games['Date'] == datetime.today().date()]
         count = 0
+
+        df_today['homeTeam'] = ''
+        df_today['visitorTeam'] = ''
+
         #lookup elo values of the teams playing today and calculate win percentages
         for row in df_today.itertuples():
             idx=row.Index
             count = count +1
-            homeTeamElo = self.df_team_elos.iloc[row.homeTeamEncode-1][0]
-            visitorTeamElo = self.df_team_elos.iloc[row.visitorTeamEncode-1][0]
+            homeTeamElo = self.df_team_elos.iloc[row.homeTeamEncode][0]
+            visitorTeamElo = self.df_team_elos.iloc[row.visitorTeamEncode][0]
             df_today.at[idx, 'homeTeamGoals'] = expected_result(homeTeamElo, visitorTeamElo)
+            df_today.at[idx, 'visitorTeamGoals'] = 1-expected_result(homeTeamElo, visitorTeamElo)
+
+            df_today.at[idx, 'homeTeam'] = str(self.df_team_elos.iloc[row.homeTeamEncode][1])
+            df_today.at[idx, 'visitorTeam'] = str(self.df_team_elos.iloc[row.visitorTeamEncode][1])
+
+
+        df_today = df_today.rename(columns = {"homeTeamGoals":"homeWin", "visitorTeamGoals": "visitorWin"})
+        df_today = df_today[['Date', 'homeTeam', 'homeWin','visitorTeam', 'visitorWin']]
 
         df_today.to_csv('test.csv')
 
+        return df_today
+
+    def test(self):
+
+    	print(self.df_team_elos.iloc[5])
 
 
