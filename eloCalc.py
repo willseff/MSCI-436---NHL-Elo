@@ -87,8 +87,7 @@ class eloCalc:
                 team_elos.iloc[l_id-1] = l_elo_after
 
             else:
-                # this does nothing just when it was left blank python said there was an indentation error
-                l=1
+                pass
 
 
 
@@ -103,7 +102,7 @@ class eloCalc:
 
     def toCsv(self):
 
-        self.df_games.to_csv('out.csv')
+        self.df_games.to_csv('out.csv', index_col = False)
         self.df_team_elos.to_csv('team elos.csv')
 
         print ('Elo results saved to csv')
@@ -131,15 +130,9 @@ class eloCalc:
             df_today.at[idx, 'visitorTeam'] = str(self.df_team_elos.iloc[row.visitorTeamEncode][1])
 
 
-        df_today = df_today.rename(columns = {"homeTeamGoals":"homeWin", "visitorTeamGoals": "visitorWin"})
+        df_today = df_today.rename(columns = {"homeTeamGoals":"homeWinPercentage", "visitorTeamGoals": "visitorWinPercentage"})
         df_today = df_today[['Date', 'homeTeam', 'homeWin','visitorTeam', 'visitorWin']]
 
-        df_today.to_csv('test.csv')
-
         return df_today
-
-    def test(self):
-
-    	print(self.df_team_elos.iloc[5])
 
 
