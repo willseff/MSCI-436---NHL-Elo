@@ -5,9 +5,9 @@ from tkintertable import TableCanvas, TableModel
 
 
 
-#y = scraper(2019, 2019)
+y = scraper(2017, 2019)
 
-#y.toCsv()
+y.toCsv()
 
 k = eloCalc()
 

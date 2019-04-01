@@ -120,9 +120,6 @@ class eloCalc:
         for row in df_today.itertuples():
             idx=row.Index
             count = count +1
-            print(row.homeTeamEncode)
-            print(row.visitorTeamEncode)
-            print(self.df_team_elos)
             homeTeamElo = self.df_team_elos.iloc[row.homeTeamEncode-1][0]
             visitorTeamElo = self.df_team_elos.iloc[row.visitorTeamEncode-1][0]
             df_today.at[idx, 'homeTeamGoals'] = expected_result(homeTeamElo, visitorTeamElo)
@@ -136,6 +133,8 @@ class eloCalc:
         df_today = df_today[['Date', 'homeTeam', 'homeWinPercentage','visitorTeam', 'visitorWinPercentage']]
 
         df_today.to_csv('test.csv', index = False)
+
+        print('todays predictions saved to csv')
 
         return df_today
 

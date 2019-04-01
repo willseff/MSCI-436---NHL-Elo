@@ -15,9 +15,9 @@ class interface:
 
 		tframe = Frame(root)
 		tframe.pack()
-		table = TableCanvas(tframe, rowheaderwidth=0)
+		table = TableCanvas(tframe, rowheaderwidth=10)
 		table.importCSV('team elos.csv')
-		table.sortTable(columnName='elo')
+		table.sortTable(columnName='elo', reverse = 1)
 		colIndex = 1
 		table.show()
 
@@ -26,7 +26,7 @@ class interface:
 
 		tframe2 = Frame(root)
 		tframe2.pack()
-		table2 = TableCanvas(tframe2, rowheaderwidth=0)
+		table2 = TableCanvas(tframe2, rowheaderwidth=10)
 		table2.importCSV('test.csv')
 		table2.show()
 
