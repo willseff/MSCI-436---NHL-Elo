@@ -1,18 +1,17 @@
 from Scraper import scraper
 from eloCalc import eloCalc
+from Tkinter import *
+from tkintertable import TableCanvas, TableModel
+
+
 
 #y = scraper(2019, 2019)
 
 #y.toCsv()
 
-ec = eloCalc()
+k = eloCalc()
 
-ec.toCsv()
+k.toCsv()
 
-ec.upcomingGames()
-
-ec.test()
-
-
-
+k.upcomingGames()
 
