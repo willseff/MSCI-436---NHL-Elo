@@ -66,7 +66,7 @@ class eloCalc:
                 
             idx = row.Index
             if row.homeTeamGoals > -1 :
-                if row.homeTeamGoals < row.visitorTeamGoals :
+                if row.homeTeamGoals > row.visitorTeamGoals :
                     w_id = row.visitorTeamEncode
                     l_id = row.homeTeamEncode
                     
@@ -102,7 +102,7 @@ class eloCalc:
     def toCsv(self):
 
         self.df_games.to_csv('out.csv', index = False)
-        self.df_team_elos.to_csv('team elos.csv')
+        self.df_team_elos.to_csv('team elos.csv', index = False)
 
         print ('Elo results saved to csv')
 
@@ -135,7 +135,7 @@ class eloCalc:
         df_today = df_today.rename(columns = {"homeTeamGoals":"homeWinPercentage", "visitorTeamGoals": "visitorWinPercentage"})
         df_today = df_today[['Date', 'homeTeam', 'homeWinPercentage','visitorTeam', 'visitorWinPercentage']]
 
-        df_today.to_csv('test.csv')
+        df_today.to_csv('test.csv', index = False)
 
         return df_today
 
