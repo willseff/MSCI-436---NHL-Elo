@@ -1,5 +1,5 @@
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import numpy as np 
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
@@ -95,14 +95,13 @@ class eloCalc:
 
         team_elos.columns = ['elo']
         team_elos['team'] = pd.read_csv('Team Encodings.csv')['Team']
+        print(team_elos)
         self.df_team_elos = team_elos
-
-        print(self.df_games)
 
 
     def toCsv(self):
 
-        self.df_games.to_csv('out.csv', index_col = False)
+        self.df_games.to_csv('out.csv', index = False)
         self.df_team_elos.to_csv('team elos.csv')
 
         print ('Elo results saved to csv')
@@ -121,17 +120,22 @@ class eloCalc:
         for row in df_today.itertuples():
             idx=row.Index
             count = count +1
-            homeTeamElo = self.df_team_elos.iloc[row.homeTeamEncode][0]
-            visitorTeamElo = self.df_team_elos.iloc[row.visitorTeamEncode][0]
+            print(row.homeTeamEncode)
+            print(row.visitorTeamEncode)
+            print(self.df_team_elos)
+            homeTeamElo = self.df_team_elos.iloc[row.homeTeamEncode-1][0]
+            visitorTeamElo = self.df_team_elos.iloc[row.visitorTeamEncode-1][0]
             df_today.at[idx, 'homeTeamGoals'] = expected_result(homeTeamElo, visitorTeamElo)
             df_today.at[idx, 'visitorTeamGoals'] = 1-expected_result(homeTeamElo, visitorTeamElo)
 
-            df_today.at[idx, 'homeTeam'] = str(self.df_team_elos.iloc[row.homeTeamEncode][1])
-            df_today.at[idx, 'visitorTeam'] = str(self.df_team_elos.iloc[row.visitorTeamEncode][1])
+            df_today.at[idx, 'homeTeam'] = str(self.df_team_elos.iloc[row.homeTeamEncode-1][1])
+            df_today.at[idx, 'visitorTeam'] = str(self.df_team_elos.iloc[row.visitorTeamEncode-1][1])
 
 
         df_today = df_today.rename(columns = {"homeTeamGoals":"homeWinPercentage", "visitorTeamGoals": "visitorWinPercentage"})
-        df_today = df_today[['Date', 'homeTeam', 'homeWin','visitorTeam', 'visitorWin']]
+        df_today = df_today[['Date', 'homeTeam', 'homeWinPercentage','visitorTeam', 'visitorWinPercentage']]
+
+        df_today.to_csv('test.csv')
 
         return df_today
 
