@@ -7,7 +7,7 @@ from datetime import datetime
 
 mean_elo = 1500
 elo_width = 400
-k_factor = 64
+k_factor = 40
 
 
 sns.set_style("darkgrid")
