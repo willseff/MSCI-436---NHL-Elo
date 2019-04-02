@@ -1,17 +1,11 @@
 import numpy as np 
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.preprocessing import LabelEncoder
 from datetime import datetime
 
 mean_elo = 1500
 elo_width = 400
-k_factor = 40
+k_factor = 10
 
-
-sns.set_style("darkgrid")
-sns.set_context("notebook")
 
 def update_elo(winner_elo, loser_elo):
     """

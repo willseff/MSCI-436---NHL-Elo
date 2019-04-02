@@ -22,19 +22,19 @@ class scraper:
 				df_temp_reg = pd.DataFrame(pd.read_html(url)[0])
 				df_temp_reg['season'] = year
 
-				try:
-					df_temp_post = pd.DataFrame(pd.read_html(url)[1])
-					df_temp_post['season'] = year
+				#try:
+					#df_temp_post = pd.DataFrame(pd.read_html(url)[1])
+					#df_temp_post['season'] = year
 
-				except IndexError as e:
-					k = 0
-				 	print('no playoffs available yet')
+				#except IndexError as e:
+					#k = 0
+				 	#print('no playoffs available yet')
 
 
 				df_lists.append(df_temp_reg)
 
-				if k == 1:
-					df_lists.append(df_temp_post)
+				#if k == 1:
+					#df_lists.append(df_temp_post)
 
 				print (str(year) + " scraped")
 

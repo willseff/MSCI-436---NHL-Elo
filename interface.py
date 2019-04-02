@@ -1,6 +1,5 @@
 from Tkinter import *
 from tkintertable import TableCanvas, TableModel
-import pandas as pd
 
 class interface:
 	
@@ -33,6 +32,4 @@ class interface:
 
 		root.mainloop()
 
-
-interface()
 
