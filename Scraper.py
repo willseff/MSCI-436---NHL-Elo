@@ -22,6 +22,8 @@ class scraper:
 				df_temp_reg = pd.DataFrame(pd.read_html(url)[0])
 				df_temp_reg['season'] = year
 
+				# use commented out code if playoff data is desired
+
 				#try:
 					#df_temp_post = pd.DataFrame(pd.read_html(url)[1])
 					#df_temp_post['season'] = year
@@ -41,8 +43,6 @@ class scraper:
 
 		df = pd.concat(df_lists)
 		teamEncodings = pd.read_csv('Team Encodings.csv')
-
-		#df.drop(labels=[ 'Att.', 'LOG', 'Notes'], inplace=True, axis=1)
 
 		# creates two new columns to turn the team names into numerical encodings
 		df['homeTeamEncode'] = 0
