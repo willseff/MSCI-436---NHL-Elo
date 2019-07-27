@@ -1,6 +1,6 @@
 from Scraper import scraper
 from eloCalc import eloCalc
-from Tkinter import *
+from tkinter import *
 from tkintertable import TableCanvas, TableModel
 from interface import interface
 
