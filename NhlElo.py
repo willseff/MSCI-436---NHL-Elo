@@ -106,6 +106,7 @@ class TeamElos(dict):
         
         plt.title(f'{args} Elo History')
         plt.legend()
+        plt.show()
 
     def update(self, game_tuple):
         if game_tuple.VisitingGoals > game_tuple.HomeGoals:
