@@ -1,6 +1,8 @@
 import pandas as pd
+import numpy as np
 from tkinter import *
-from tkintertable import TableCanvas, TableModel
+from tkintertable import TableCanvas
+import matplotlib.pyplot as plt
 
 k_factor = 10
 
@@ -79,21 +81,31 @@ df_lists.loc[ind, 'OTSO'] = 'REG'
 teams = df_lists['Home'].unique()
 teams.sort()
 
-team_elos = {}
-for team in teams:
-    team_elos[team] = 1500
-team_elos
-
 games = df_lists.reset_index()
-
 games.drop('index', axis=1, inplace=True)
 
 
 class TeamElos(dict):
-    def __init__(self):
+    def __init__(self, teams):
         super().__init__(self)
         for team in teams:
             self[team] = 1500
+        self.history = HistoryList(teams)
+
+    def plot_history(self, *args):      
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        ax.set_ylim([1350,1700])
+        plt.xticks(rotation=45)
+    
+        for team in args:
+            cax = plt.plot(
+                self.history[team]['Date'],
+                self.history[team]['Elo Rating'],
+                label = team)
+        
+        plt.title(f'{args} Elo History')
+        plt.legend()
 
     def update(self, game_tuple):
         if game_tuple.VisitingGoals > game_tuple.HomeGoals:
@@ -105,12 +117,32 @@ class TeamElos(dict):
         self[winning_team], self[losing_team] = update_elo(
             self[winning_team],
             self[losing_team])
+        self.history.update(
+            winning_team = winning_team,
+            losing_team = losing_team,
+            win_elo = self[winning_team],
+            lose_elo = self[losing_team],
+            date = game_tuple.Date
+            )
 
 
-elos = TeamElos()
+class HistoryList(dict):
+    def __init__(self, teams):
+        super().__init__(self)
+        for team in teams:
+            self[team] = pd.DataFrame()
+
+    def update(self, winning_team, losing_team, win_elo, lose_elo, date):
+        self[winning_team] = self[winning_team].append([date,win_elo])
+        self[losing_team]= self[losing_team].append([date,lose_elo])
+
+
+elos = TeamElos(teams)
 for row in games.itertuples():
     if row.Date.date() < pd.Timestamp.today().date():
         elos.update(row)
+
+elos.plot_history('Toronto Maple Leafs', 'Montreal Canadiens')
 
 elos = pd.DataFrame(
     elos,
