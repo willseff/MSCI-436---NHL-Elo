@@ -130,11 +130,15 @@ class HistoryList(dict):
     def __init__(self, teams):
         super().__init__(self)
         for team in teams:
-            self[team] = pd.DataFrame()
+            self[team] = pd.DataFrame(columns = ['Date', 'Elo Rating'])
 
     def update(self, winning_team, losing_team, win_elo, lose_elo, date):
-        self[winning_team] = self[winning_team].append([date,win_elo])
-        self[losing_team]= self[losing_team].append([date,lose_elo])
+        self[winning_team] = self[winning_team].append(
+            {'Date': date,'Elo Rating': win_elo},
+            ignore_index = True)
+        self[losing_team]= self[losing_team].append(
+            {'Date': date,'Elo Rating': lose_elo},
+            ignore_index = True)
 
 
 elos = TeamElos(teams)
