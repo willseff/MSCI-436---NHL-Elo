@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NHL Elo</title>
+	<link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+	<table>
+		<tr>
+			<th>Team</th>
+			<th>Rating</th>
+		</tr>
+		{% for team, rating in zip(elo_ratings.keys(),elo_ratings.values())}
+
+		
+
+	</table>
+		{% for team, rating in zip(elo_ratings.keys(),elo_ratings.values())}
+		<li>{{team}} : {{rating}}</li>
+		{% endif %}
+
+</body>
+</html>
