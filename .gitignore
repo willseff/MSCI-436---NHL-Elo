@@ -16,3 +16,6 @@ test
 test.csv
 game outcomes.csv
 out.csv
+.ipynb_checkpoints/Data Cleaning-checkpoint.ipynb
+elos.csv
+prediction.csv
