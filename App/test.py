@@ -40,7 +40,7 @@ prediction = [[row.id,
 df = pd.DataFrame(prediction)
 
 for row in df.itertuples():
-    print(row[2])
+    print(row[0])
 
 
 

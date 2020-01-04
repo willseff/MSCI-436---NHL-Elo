@@ -12,15 +12,12 @@ elo_ratings = {row.team: row.elo for row in query}
 # query db for the predictions
 query = Prediction.select()
 #list comprehension to turn query into list
-predictions_list = [[row.id, 
-                     row.date, 
-                     row.visitor, 
-                     row.visitor_win, 
-                     row.home,
-                     row.home_win] for row in query]
-
-# then turn list in to df
-predictions = pd.DataFrame(predictions_list)
+predicts = [[row.id, 
+             row.date, 
+             row.visitor, 
+             row.visitor_win, 
+             row.home,
+             row.home_win] for row in query]
 
 
 app = Flask(__name__)
@@ -41,7 +38,11 @@ def home():
 @app.route('/predictions')
 def predictions():
 	return render_template('predictions.html', 
-						   predictions=predictions)
+						   predicts=predicts)
+
+@app.route('/elohistory')
+def elohistory():
+	return('feature under construction')
 
 if __name__ == '__main__':
 	app.run(debug=True, host='0.0.0.0', port=8000)

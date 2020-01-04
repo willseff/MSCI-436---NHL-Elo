@@ -95,7 +95,7 @@ games_future = games.loc[ind,:].reset_index()
 games_future.drop('index', axis=1, inplace=True)
 
 # select first 10 games of the future games
-games_prediction = games_future.loc[0:10,['Date', 'Visitor', 'Home']]
+games_prediction = games_future.loc[0:100,['Date', 'Visitor', 'Home']]
 
 # merge the upcoming games with the elo ratings of the teams
 games_prediction = games_prediction.merge(elos,left_on= 'Visitor', right_index = True)
@@ -118,6 +118,8 @@ games_prediction.drop(['Visitor Elo Rating','Home Elo Rating'], axis = 1, inplac
 # change order of the columns
 games_prediction = games_prediction[['Date', 'Visitor', 'Visitor Win%','Home','Home Win%']]
 
+games_prediction.sort_values(by=['Date'], inplace=True)
+3
 db = SqliteDatabase('elos.db')
 
 # prediction table with the next ten games being played and the percentage of winning
